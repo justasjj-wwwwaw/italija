@@ -5,7 +5,7 @@ Statinė kelionės svetainė adresu **italija.tingek.lt**. Be kūrimo žingsnio 
 ## Failai
 
 - `index.html`: visas puslapis (CSS ir JS įdėti viduje, ikonos kaip SVG sprite)
-- `fonts/`: savo serveryje laikomi šriftai (Hanken Grotesk, Bodoni Moda; apkarpyti iki lietuviškų ir lotyniškų ženklų, WOFF, licencija OFL, tekstai šalia)
+- `fonts/`: savo serveryje laikomi šriftai: **Inter** (tekstas) ir **Literata** (antraštės, dideli skaičiai); apkarpyti iki lietuviškų ir lotyniškų ženklų, WOFF, licencija OFL, tekstai šalia. Pasirinkti dėl aiškaus skaitymo telefone saulėje: didelis x aukštis, tvirti, ne plonyčiai brūkšniai, aiškūs skaičiai (laikai, temperatūra)
 - `sw.js`: „service worker“, kad puslapis atsidarytų ir be ryšio (kalnuose)
 - `manifest.webmanifest`, `icons/`: programėlės ikonos ir pridėjimas į telefono pagrindinį ekraną
 - `og.jpg`: paveikslėlis, rodomas pasidalijus nuoroda (Messenger, WhatsApp, Facebook ir kt.)
@@ -31,7 +31,7 @@ Statinė kelionės svetainė adresu **italija.tingek.lt**. Be kūrimo žingsnio 
 
 ## Optimizavimas ir suderinamumas
 
-- **Greitis.** Joks išorinis šaltinis neblokuoja piešimo: šriftai savi (~90 KB, iš anksto užkraunami, `font-display: swap`), nėra bibliotekų, HTML po suspaudimo ~30 KB. Matuota su sulėtintu 4G tinklu (1,6 Mb/s, 150 ms) ir 4× lėtesniu procesoriumi telefono dydžio ekrane: pirmas turinys ~1 s, išdėstymo šuoliai (CLS) 0, pirmas įkėlimas ~250 KB.
+- **Greitis.** Joks išorinis šaltinis neblokuoja piešimo: šriftai savi (~100 KB, pagrindiniai iš anksto užkraunami, `font-display: swap`), nėra bibliotekų, HTML po suspaudimo ~30 KB. Matuota su sulėtintu 4G tinklu (1,6 Mb/s, 150 ms) ir 4× lėtesniu procesoriumi telefono dydžio ekrane: pirmas turinys ~1 s, išdėstymo šuoliai (CLS) 0, pirmas įkėlimas ~250 KB.
 - **Suderinamumas.** Skriptas parašytas ES5 sintakse (patikrinta `eslint`, `ecmaVersion: 5`), kur reikia, naudojamos patikros (`fetch`, `AbortController`, `serviceWorker`, `Intl`), o jų nebuvimas nieko nesugadina. Be JavaScript puslapis lieka naudojamas: žemėlapis matomas, o dienų programas galima atverti paspaudus (tai veikia pačioje naršyklėje), tik nėra gyvo režimo ir nuotraukų.
 - **Naršyklių minimumas** (išvesta iš naudojamų CSS funkcijų `gap` flex ir `clamp()`, ne išbandyta): Chrome / Edge 84+, Firefox 75+, Safari / iOS 14.5+, Samsung Internet 14+. Senesnėse puslapis gali atrodyti su kitokiais tarpais ir šrifto dydžiais.
 - **Prieinamumas.** Teksto kontrastas ≥ 4,5:1 (didelio ≥ 3:1), paspaudžiami elementai mobiliajame ne žemesni kaip 36 px, antraščių hierarchija h1 → h2 → h3 → h4, `aria-*` ir `alt` visur, kur reikia, `prefers-reduced-motion` gerbiamas.
