@@ -906,8 +906,26 @@ footer a{color:#F4CDB0;text-underline-offset:3px}
         if(k>=0)o.hrs[hh]={t:h.temperature_2m?h.temperature_2m[k]:null,pp:h.precipitation_probability?h.precipitation_probability[k]:null,
           code:h.weather_code?h.weather_code[k]:(h.weathercode?h.weathercode[k]:null)};
       }
+      var dc=wxDayCode(o);if(dc!=null)o.code=dc;
     }
     return o;
+  }
+  function wxDayCode(o){
+    // dienos būklė pagal šviesias valandas (8–20 val.), o ne pagal blogiausią parą (pvz. ryto rūkas)
+    var cnt={},n=0,wet={},nw=0,th=0,c,h,k,q;
+    for(h=8;h<=20;h++){
+      q=o.hrs[h];if(!q||q.code==null)continue;
+      c=q.code;n++;
+      if(c>=95)th=Math.max(th,c);
+      else if(c>=51){nw++;wet[c]=(wet[c]||0)+1;}
+      else cnt[c]=(cnt[c]||0)+1;
+    }
+    if(!n)return null;
+    if(th)return th;
+    function top(m){var b=null,bn=0;Object.keys(m).map(Number).sort(function(x,y){return x-y;}).forEach(function(k2){if(m[k2]>bn){b=k2;bn=m[k2];}});return b;}
+    if(nw>=3)return top(wet);
+    var dry=top(cnt);
+    return dry!=null?dry:top(wet);
   }
   function wxAge(t){
     var m=Math.round((Date.now()-t)/6e4);
@@ -950,7 +968,8 @@ footer a{color:#F4CDB0;text-underline-offset:3px}
       alt.innerHTML=altTxt;
     }else if(alt)alt.parentNode.removeChild(alt);
     $('.wx-adv',tile).textContent=wxAdvice(o,altMax,altGust,cable);
-    $('.wx-src',tile).textContent=live?'Prognozė: Open-Meteo, atnaujinta '+wxAge(t)+'.'
+    var ag=live?wxAge(t):'';
+    $('.wx-src',tile).textContent=live?'Prognozė: Open-Meteo, atnaujinta '+ag+(/\.$/.test(ag)?'':'.')
       :(failed?'Prognozė, 2026 m. spalio 26 d. (šviežios gauti nepavyko).':'Prognozė, 2026 m. spalio 26 d.');
   }
   var lastSc=0;
