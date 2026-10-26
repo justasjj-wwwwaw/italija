@@ -24,9 +24,10 @@ Statinė kelionės svetainė adresu **italija.tingek.lt**. Be kūrimo žingsnio 
 - **Dienos suvestinė.** Kiekvienos dienos pradžioje: bendras važiavimo laikas ir atstumas, ėjimo laikas ir apytikslis žingsnių skaičius, saulėtekis, saulėlydis, sutemos ir (kelionės dieną) kiek liko iki sutemų.
 - **Gyvas režimas.** Kelionės dienomis puslapis pagal Italijos laiką atidaro šiandienos dieną, praėjusius punktus suskleidžia, dabartinį paryškina („Dabar“), kitą pažymi („Toliau“). Apačioje rodoma gyva juosta: kas vyksta, kas toliau, kiek liko iki sutemų. Žemėlapyje pulsuoja dabartinis taškas.
 - **Peržiūra be kelionės.** Pridėkite `?t=2026-10-31T12:10` prie adreso (laikas – Italijos), pvz. `https://italija.tingek.lt/?t=2026-10-31T12:10`. Nuorodos pateiktos puslapio apačioje.
+- **Orai.** Kiekvienos dienos pradžioje – orų plytelė: temperatūra, lietaus tikimybė ir kiekis, vėjas ir gūsiai, valandinė juosta (9, 12, 15, 18 val.; pirmą dieną vakaro valandos), trumpas patarimas (lietpaltis, šilti drabužiai, vėjas) ir 4 dienai Monte Baldo viršūnės prognozė. Duomenys imami naršyklėje iš [Open-Meteo](https://open-meteo.com/) (nemokama, be rakto) kiekvienai vietovei: Sirmione, Limone, Malcesine, Monte Baldo (1 750 m) ir Tenno (570 m). Atsakymas laikomas naršyklėje 3 val.; be ryšio rodomas paskutinis išsaugotas. Jei prognozės gauti nepavyksta, rodoma į HTML įrašyta 2026 m. spalio 26 d. prognozė (tik temperatūra ir lietaus tikimybė, kalnų temperatūra – įvertis pagal aukštį, 6,5 °C/km). Prognozė keičiasi, todėl prieš išvykstant verta dar kartą atidaryti puslapį.
 - **Žemėlapiai.** Viršuje: pasirinkite dieną (1–5) ir pamatysite maršrutą su atvykimo laikais. Kiekviena diena turi savo detalų žemėlapį su laikais ir nuorodą „Maršrutas Google Maps“.
 - **Nuotraukos.** Mažos nuotraukos prie gražiausių vietų įkeliamos naršyklėje iš Wikipedia / Wikimedia Commons (laisvos licencijos), **tik atidarytoms dienoms**, su 7 s riba ir 14 dienų talpykla naršyklėje. Jei nuotraukos gauti nepavyksta, vieta paprasčiausiai lieka be nuotraukos ir puslapis „nešokinėja“ (vieta nuotraukai rezervuota iš anksto). Kuri nuotrauka rodoma, nustato Wikipedijos straipsnio pagrindinė nuotrauka; sąrašas yra `PH` žodyne generavimo skripte.
-- **Be ryšio.** Pirmą kartą atidarius su internetu, puslapis, šriftai ir ikonos išsaugomi. Vėliau, jei tinklo nėra ar jis lėtas (>5 s), rodoma išsaugota versija, o kai tik ryšys yra, imama naujausia. Nuotraukos ir žemėlapių nuorodos į Google Maps be ryšio neveikia.
+- **Be ryšio.** Pirmą kartą atidarius su internetu, puslapis, šriftai ir ikonos išsaugomi. Vėliau, jei tinklo nėra ar jis lėtas (>5 s), rodoma išsaugota versija, o kai tik ryšys yra, imama naujausia. Nuotraukos, šviežia prognozė ir nuorodos į Google Maps be ryšio neveikia.
 
 ## Optimizavimas ir suderinamumas
 
@@ -38,6 +39,7 @@ Statinė kelionės svetainė adresu **italija.tingek.lt**. Be kūrimo žingsnio 
 
 ## Duomenys ir prielaidos
 
+- Orų prognozė: Open-Meteo modeliai; ilgesniems nei kelių dienų terminams tikslumas mažėja. Kalnuose (Monte Baldo, Tenno) vietinės sąlygos gali skirtis nuo modelio.
 - Kelionės trukmės: OSRM maršrutų skaičiavimas (be spūsčių), suapvalinta aukštyn; kalnų keliams pridėta atsarga.
 - Ėjimas: įvertis pagal planuojamą ėjimo laiką (~100 žingsnių per minutę).
 - Saulės laikai: astronominis skaičiavimas (NOAA algoritmas), sutemos – civilinės sutemos pabaiga. Tarp kalnų realus saulėlydis ankstesnis.
