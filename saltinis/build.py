@@ -941,11 +941,47 @@ EXTRA = {
 }
 
 
+# gėrimai kiekvienam punktui: alus visur, vynas vakarais (vyno zonos: Valtènesi – Moniga, Lugana – Sirmione, Trentino – Riva)
+DRINK = {
+    'Vėlyva vakarienė': 'Alus: greitai, prie A4 – trumpas „Birra“ prieš kelionę. Vakare vynas: Valtènesi, jei yra.',
+    'Registracija „Residence Corte Ferrari“': 'Alus: vietinis amatininkų. Vakarui vynas: Valtènesi (raudonas arba rožinis; Moniga yra šios zonos).',
+    'Caffè San Martino': 'Alus: vietinis amatininkų, vėliau per pietus. Ryte – kava.',
+    'Borghetto sul Mincio': 'Alus: prie upės, vietinis amatininkų alus.',
+    'Pietūs Sirmione': 'Alus: Lombardijos amatininkų alus prie pietų. Vynas: Lugana (baltas, Sirmione zonos vynas).',
+    'Sirmione senamiestis ir pilis': 'Alus: po pilies, kavinėje ant senamiesčio aikštės.',
+    'Passeggiata Panoramica': 'Alus: pakeliui, kavinėje ant kranto.',
+    'Punta San Vigilio': 'Vynas: Lugana arba Bardolino prie saulėlydžio. Alus: vietinis amatininkų.',
+    'Grįžimas į Moniga': 'Alus: šaltas po kelio. Vakarui vynas: Valtènesi.',
+    'Vakarienė Monigoje: 3 pasirinkimai pėsčiomis': 'Vynas: Valtènesi (raudonas arba rožinis). Alus: vietinis amatininkų. Ežero žuvims – Lugana.',
+    'Išsiregistravimas iš „Residence Corte Ferrari“': 'Alus: nėra – išvykstate. Vanduo kelionei.',
+    'Bar Pasticceria Al Duomo': 'Alus: Salò krantinėje, vietinis amatininkų.',
+    'Strada della Forra (SP38)': 'Alus: po tarpeklio Tremosine restorane, vietinis amatininkų.',
+    'Terrazza del Brivido': 'Alus: belvederio terasoje su vaizdu. Vakare – Lugana ar Bardolino.',
+    'Pietūs Tremosine': 'Alus: vietinis amatininkų prie upėtakio.',
+    'Limone sul Garda senamiestis': 'Alus arba limončelo: vietinis citrininis likeris Limone krantinėje.',
+    'Ciclopedonale del Garda (Via Reamol)': 'Alus: po pasivaikščiojimo Limone baruose.',
+    'Persikėlimas į „Residence Segattini“': 'Alus: Riva krantinėje po registracijos. Vakare – vynas.',
+    'Vakarienė Riva del Gardoje: 2 pasirinkimai pėsčiomis': 'Vynas: Trentino – Teroldego (raudonas) arba Nosiola (baltas). Alus: Trentino amatininkų.',
+    'Pasticceria Cristallo': 'Alus: vietinis amatininkų, kavinėje krantinėje.',
+    'Funivia Malcesine – Monte Baldo': 'Alus: viršuje kavinėje, vietinis amatininkų.',
+    'Pasivaikščiojimas kalno ketera': 'Alus: po pasivaikščiojimo viršutinėje kavinėje.',
+    'Malcesine senamiestis ir uostas': 'Alus: uosto kavinėje, vietinis amatininkų.',
+    'Ponale takas, pirma atkarpa': 'Alus: po pasivaikščiojimo Riva, šaltas.',
+    'Vakarienė Riva del Garda senamiestyje: 2 pasirinkimai': 'Vynas: Trentino Teroldego (raudonas) arba Nosiola (baltas). Alus: vietinis.',
+    'Parco Grotta Cascata Varone': 'Alus: po parko, Varone vietinėje kavinėje.',
+    'Canale di Tenno': 'Alus arba Teroldego vynas prie canederli pietų.',
+    'Lago di Tenno (pasirinktinai)': 'Alus: prie ežero kavinėje (vasarą).',
+    'Registracija, saugumo patikra, vakarienė oro uoste': 'Vakarui: vynas (Lugana) arba alus prieš skrydį.',
+}
+
+
 def finish_days():
     for d in DAYS:
         for e in d['events']:
             if e['kind'] != 'note' and e['title'] in EXTRA:
                 e['desc'], e['see'] = EXTRA[e['title']]
+            if e['kind'] != 'note' and e['title'] in DRINK:
+                e['drink'] = DRINK[e['title']]
     for d in DAYS:
         base = (d['n'] - 1) * 1440
         evs = [e for e in d['events'] if e['kind'] != 'note']
@@ -1081,6 +1117,8 @@ def ev_html(d, i, e):
     if e.get('see'):
         body += ('<h5 class="seeh">Ką pamatyti</h5><ul class="see">'
                  + ''.join(f'<li>{esc(x)}</li>' for x in e['see']) + '</ul>')
+    if e.get('drink'):
+        body += f'<p class="drink">{esc(e["drink"])}</p>'
     if e.get('q'):
         body += mlink(e['q'], e.get('qn') or e['title'])
     if e.get('opts'):
@@ -1351,6 +1389,7 @@ CSS = r'''
 .seeh{font:600 12px/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 4px;opacity:.85}
 .see{margin:0;padding-left:18px}
 .see li{margin:3px 0}
+.drink{font-size:13px;margin:10px 0 0;opacity:.85}
 .nb{display:inline-block;margin-left:8px;background:#c4531f;color:#fff;font:600 11px/1 system-ui,sans-serif;letter-spacing:.06em;padding:3px 6px;border-radius:4px;vertical-align:2px}
 @font-face{font-family:"Inter";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/inter.woff) format("woff")}
 @font-face{font-family:"Literata";font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/literata.woff) format("woff")}
