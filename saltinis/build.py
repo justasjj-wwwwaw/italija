@@ -867,7 +867,85 @@ DAYS = [
 ]
 
 
+
+# papildomi aprašymai ir „Ką pamatyti“ punktai (raktas – punkto pavadinimas)
+EXTRA = {
+    'Skrydis Vilnius ➔ Milanas Malpensa (MXP)': ('Wizz Air skrydis iš Vilniaus. Nusileidus Malpensoje pasiimkite bagažą ir susitikite prie nuomos punktų. Susitarkite dėl bendro susitikimo taško prieš išsiskirstant.',
+        ['Bendras susitikimo taškas oro uoste', 'Dokumentai ir vairuotojo pažymėjimas nuomai']),
+    'Automobilių atsiėmimas': ('„Centauro“ nuomos punktas Malpensoje. Abu automobiliai, tas pats navigacijos taškas ir bendras pradžios laikas. Prieš išvykstant apžiūrėkite automobilius ir nufotografuokite esamus pažeidimus.',
+        ['Patikrinkite kuro lygį ir mokėjimo būdą', 'A4 magistralė mokama – turėkite kortelę']),
+    'Vėlyva vakarienė': ('Trumpas sustojimas A4 magistralėje. Sumuštiniai, picos ir kava – greitas valgis po ilgos dienos. Jei sustojimas praleidžiamas, Monigoje atvykstate apie 23:15.',
+        ['Sumuštiniai ir picos greitai', 'Kava ir užkandžiai kelionei']),
+    'Registracija „Residence Corte Ferrari“': ('Apartamentai Monigos centre, arti uosto ir senamiesčio. Registracija iki 00:00. Jei vėluojate, iš anksto parašykite šeimininkui.',
+        ['Baseinas (patikrinkite, ar atidarytas spalį)', 'Vaizdas į vynuogynus ir ežerą iš balkono', 'Stovėjimas aikštelėje']),
+    'Caffè San Martino': ('Rytinė kava Monigos aikštėje. Vieta patogi prieš išvykimą į Borghetto.',
+        ['Cornetti su pistacijomis ar kremu', 'Kapučinas ir šviežias sumuštinis']),
+    'Borghetto sul Mincio': ('Mažas viduramžių kaimas ant Mincio upės. Upė ir malūnai suteikia kaimui savitą atmosferą, o siauros gatvelės ir tiltai – puikus sustojimas prieš pietus. Vienas „Gražiausių Italijos kaimų“ (pagal atsiliepimus).',
+        ['Visconteo tiltas ir upės vaizdai', 'Malūnai prie Mincio', 'Akmeniniai namai ir siauros gatvelės', 'Tortellini di Valeggio – kaimynystėje']),
+    'Pietūs Sirmione': ('Pietūs Sirmione senamiestyje, prieš pilį. Jei norite stalo 8 žmonėms, rezervuokite iš anksto.',
+        ['Casoncelli bresciani (virtinukai su šalavijų sviestu)', 'Amatininkų ledai po pietų']),
+    'Sirmione senamiestis ir pilis': ('Scaligerių pilis (XIII–XIV a.) – vienas simboliškiausių Gardos ežero objektų. Senamiestis siaurose gatvelėse, bokšte – apžvalgos aikštelė.',
+        ['Pilies griovas ir tiltas', 'Bokšto apžvalgos aikštelė – visas pussalis', 'Siauri laiptai, ne visiems tinka', 'Bilietas ~10 € suaugusiam; atidaryta 8:30–19:15, pirmadieniais uždaryta (Google)']),
+    'Passeggiata Panoramica': ('Pasivaikščiojimas palei ežero skardžius Sirmione pakrantėje, tarp alyvmedžių. Trumpas, bet vaizdingas ėjimas prieš išvykstant į Punta San Vigilio.',
+        ['Alyvmedžiai ir skardžiai', 'Vaizdai į Garda ežerą ir kalnus']),
+    'Punta San Vigilio': ('Kyšulys rytinėje Gardos ežero pusėje su renesanso vila (XVI a.) ir akmenuotu įlankos krantu. Čia vienas gražiausių ežero saulėlydžių.',
+        ['Renesanso vila (XVI a.) ant kyšulio', 'Akmenuotas įlankos krantas', 'Saulėlydis apie 17:08', 'Prieiga dalimi per viešbučio teritoriją – patikrinkite prieš einant']),
+    'Grįžimas į Moniga': ('Grįžimas į Monigą. Poilsis apartamentuose prieš vakarienę.',
+        ['Poilsis ir baseinas (jei atidarytas)', 'Trumpas vakaro pasivaikščiojimas Monigos aikštėje']),
+    'Vakarienė Monigoje: 3 pasirinkimai pėsčiomis': ('Vakarienė Monigos centre, pėsčiomis nuo apartamentų. Trys pasirinkimai: Oasi – šeimyninė picerija su vaikų meniu, La Pescatrice – ežero žuvis, MamaZita – picos (penktadienį atidaryta 18:30–22:00).',
+        ['Picos ir pasta, vaikų meniu (Oasi)', 'Ežero žuvis (La Pescatrice)', 'Vietinė osterija su picomis (MamaZita)']),
+    'Išsiregistravimas iš „Residence Corte Ferrari“': ('Išsiregistravimas iš apartamentų ir kelias į šiaurę. Bagažą sudėkite prieš išvykstant.',
+        ['Bagažas automobiliuose, vertingi daiktai su savimi', 'Vanduo ir užkandžiai kelionei']),
+    'Bar Pasticceria Al Duomo': ('Kava ir kepiniai Salò krantinėje prieš kelionę per kalnus. Salò – miestas vakarų Gardos krante su Duomu ir krantine.',
+        ['Salò Duomas ir krantinė', 'Pyragaičiai, ledai ir kava', 'Vaizdai į ežerą']),
+    'Strada della Forra (SP38)': ('Kelias SP38, iškaltas uolų tarpeklyje virš Gardos ežero. Siauras ir vingiuotas: važiuokite ramiai, tuneliuose įjunkite šviesas. Žemesnėje dalyje vienkryptis, įkalnėje link Tremosine.',
+        ['Uolų tarpeklis ir vaizdai į ežerą', 'Vienpusė atkarpa aukštyn nuo ežero', 'Atidaryta 24 val. (Google); kelias gali būti uždarytas dėl nuošliaužų']),
+    'Terrazza del Brivido': ('Apžvalgos aikštelė Pieve di Tremosine kaime, virš ežero. Čia galima pasilsėti su kava ar pietumis ir pasigrožėti plačiu vaizdu.',
+        ['Panoraminis vaizdas į ežerą', 'Pieve di Tremosine kaimas', 'Kavinė ir restoranas (9:00–21:00)']),
+    'Pietūs Tremosine': ('Pietūs kalnų kaime prieš nusileidimą į Limone.',
+        ['Polenta cusa su kalnų sūriu', 'Makaronai su ežero upėtakiu ir citrina']),
+    'Limone sul Garda senamiestis': ('Limone – vienas žinomiausių citrinų miestų prie Gardos ežero. Senamiestyje siauros gatvelės, spalvingi namai ir citrinmedžių terasos.',
+        ['Citrinmedžių terasos (limonaie)', 'Senamiesčio siauros gatvelės', 'Krantinė ir uostelis']),
+    'Ciclopedonale del Garda (Via Reamol)': ('Pėsčiųjų ir dviratininkų takas, iškaltas uolose virš ežero. Gražiausi vaizdai maždaug per vidurį, prie Sophine. Takas nebaigtas – nesijungia su Riva, todėl pasivaikščiokite ir apsisukite.',
+        ['Takas uolose virš ežero', 'Vaizdai į Gardos ežerą', 'Takas nebaigtas – nesijungia su Riva']),
+    'Persikėlimas į „Residence Segattini“': ('Riva del Garda: apartamentai su baseinu, privačia aikštele ir nemokamais dviračiais. Registratūra 8:00–12:00 ir 15:00–22:00.',
+        ['Baseinas 8:00–20:00', 'Nemokami dviračiai', 'Elektromobilių įkrova (0,70 €/kWh)']),
+    'Vakarienė Riva del Gardoje: 2 pasirinkimai pėsčiomis': ('Vakarienė Rivos senamiestyje arba netoli Varone, pėsčiomis nuo apartamentų.',
+        ['Senamiesčio aplinka', 'Vietinė virtuvė ir picos']),
+    'Pasticceria Cristallo': ('Rytinė kava ir ledai Rivos krantinėje su ežero vaizdu. Puiki vieta pradėti sekmadienį prieš išvykstant į Malcesine.',
+        ['Krantinė ir terasa', 'Raguoliai ir ciabatta sumuštiniai']),
+    'Funivia Malcesine – Monte Baldo': ('Kabelinis keltuvas iš Malcesine į Monte Baldo viršūnę, 1 760 m. Kabina sukasi 360°, todėl visi mato ežerą. Lapkričio 1 d. – paskutinė sezono diena.',
+        ['Kabina sukasi 360° – panoraminis vaizdas', 'Kavinė ir takai viršuje', 'Bilietai internetu su laiko langu (QR kodas)', 'Eilės iki valandos – rinkitės ankstyvą laiką']),
+    'Pasivaikščiojimas kalno ketera': ('Pasivaikščiojimas Monte Baldo kalnagūriu su ežero ir Alpių panorama. Takai lengvi, tinka vaikams, tik apsirenkite šiltai – viršuje apie 3 °C.',
+        ['Panoraminiai taškai ir Alpių vaizdai', 'Kavinė ir pasivaikščiojimo takai', 'Šilti drabužiai (viršuje apie 3 °C)']),
+    'Malcesine senamiestis ir uostas': ('Malcesine – viduramžių miestelis su pilimi ir žvejų uostu. Čia pietūs ir trumpas pasivaikščiojimas prieš grįžtant į Rivą.',
+        ['Malcesine pilis (Castello di Malcesine)', 'Žvejų uostas', 'Carne salada – vietinis patiekalas']),
+    'Ponale takas, pirma atkarpa': ('Senas kelias ir takas palei uolas virš Gardos ežero, prasidedantis Rivos pakraštyje. Šeimai tinka pirma atkarpa: pirmyn ir atgal apie 2 val.',
+        ['Uolų takas virš ežero', 'Vaizdai į Riva ir ežerą', 'Prieš eidami patikrinkite uždarymus (Garda Trentino)']),
+    'Vakarienė Riva del Garda senamiestyje: 2 pasirinkimai': ('Vakarienė Rivos senamiestyje, pėsčiomis nuo apartamentų.',
+        ['Senamiesčio skliautinės patalpos', 'Vietinė virtuvė']),
+    'Išsiregistravimas iš „Residence Segattini“': ('Išsiregistravimas iš Rivos apartamentų. Apartamentai išvykimo dieną atlaisvinami iki 10:00.',
+        ['Bagažas į automobilius prieš išvykstant']),
+    'Parco Grotta Cascata Varone': ('Krioklys, krintantis į uolų olą Varone. Iš apatinės ir viršutinės dalies galima stebėti vandenį iš arti, takai eina per olos sodą.',
+        ['Krioklys uolos oloje', 'Sodas ir takai aplink parką', 'Bilietas ~7 €; stovėjimas nemokamas', 'Darbo laikas: 9:00–17:00 (Google); site nurodo lapkričio 10:00–17:00']),
+    'Canale di Tenno': ('Akmeninis viduramžių kaimelis Tenno kalnuose. Centre nėra automobilių eismo, akmeninės gatvelės ir arkos.',
+        ['Akmeninės gatvelės ir arkos', 'Du nemokami muziejai', 'Canederli ir obuolių štrudelis']),
+    'Lago di Tenno (pasirinktinai)': ('Smaragdinis kalnų ežeras apie 20–30 min nuo Rivos. Aplink ežerą pasivaikščiojimo takas, vasarą galima maudytis.',
+        ['Smaragdinis vanduo', 'Takas aplink ežerą', 'Mokamas stovėjimas (~2 €/val.), 5 min pėsčiomis laiptais']),
+    'Automobilių grąžinimas MXP': ('Automobilių grąžinimas Malpensoje. Grąžinkite abu automobilius iki 20:00.',
+        ['Grąžinimas tame pačiame punkte, kaip atsiėmimas', 'Patikrinkite kurą ir bagažinę']),
+    'Registracija, saugumo patikra, vakarienė oro uoste': ('Malpensos oro uostas: registracija, saugumo patikra ir vakarienė prieš skrydį.',
+        ['Vakarienė oro uoste', 'Dokumentai visiems keliautojams']),
+    'Skrydis MXP ➔ VNO (Wizz Air)': ('Wizz Air skrydis iš Malpensos į Vilnių. Nusileidimas 01:30 lapkričio 3 d.',
+        ['Rankinio bagažo ir bagažo taisyklės']),
+}
+
+
 def finish_days():
+    for d in DAYS:
+        for e in d['events']:
+            if e['kind'] != 'note' and e['title'] in EXTRA:
+                e['desc'], e['see'] = EXTRA[e['title']]
     for d in DAYS:
         base = (d['n'] - 1) * 1440
         evs = [e for e in d['events'] if e['kind'] != 'note']
@@ -995,6 +1073,9 @@ def ev_html(d, i, e):
     body = ''
     if e.get('desc'):
         body += f'<p>{esc(e["desc"])}</p>'
+    if e.get('see'):
+        body += ('<h5 class="seeh">Ką pamatyti</h5><ul class="see">'
+                 + ''.join(f'<li>{esc(x)}</li>' for x in e['see']) + '</ul>')
     if e.get('q'):
         body += mlink(e['q'], e.get('qn') or e['title'])
     if e.get('opts'):
@@ -1250,6 +1331,9 @@ sun_rng = f'{fm(min(d["set"] for d in DAYS))}–{fm(max(d["set"] for d in DAYS))
 dusk_rng = f'{fm(min(d["dusk"] for d in DAYS))}–{fm(max(d["dusk"] for d in DAYS))}'
 
 CSS = r'''
+.seeh{font:600 12px/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 4px;opacity:.85}
+.see{margin:0;padding-left:18px}
+.see li{margin:3px 0}
 .nb{display:inline-block;margin-left:8px;background:#c4531f;color:#fff;font:600 11px/1 system-ui,sans-serif;letter-spacing:.06em;padding:3px 6px;border-radius:4px;vertical-align:2px}
 @font-face{font-family:"Inter";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/inter.woff) format("woff")}
 @font-face{font-family:"Literata";font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/literata.woff) format("woff")}
