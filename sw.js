@@ -1,6 +1,6 @@
-/* Garda 2026: service worker (generuojamas build.py). Versija: 1387c4794e */
+/* Garda 2026: service worker (generuojamas build.py). Versija: 09e2352d73 */
 'use strict';
-var CACHE = 'garda-1387c4794e';
+var CACHE = 'garda-09e2352d73';
 var PRECACHE = ["./", "index.html", "manifest.webmanifest", "fonts/inter.woff", "fonts/literata.woff", "fonts/literata-italic.woff", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener('install', function (e) {
