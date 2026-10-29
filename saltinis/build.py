@@ -929,7 +929,7 @@ EXTRA = {
     'Parco Grotta Cascata Varone': ('Krioklys, krintantis į uolų olą Varone. Iš apatinės ir viršutinės dalies galima stebėti vandenį iš arti, takai eina per olos sodą.',
         ['Krioklys uolos oloje', 'Sodas ir takai aplink parką', 'Bilietas ~7 €; stovėjimas nemokamas', 'Darbo laikas: 9:00–17:00 (Google); site nurodo lapkričio 10:00–17:00']),
     'Canale di Tenno': ('Akmeninis viduramžių kaimelis Tenno kalnuose. Centre nėra automobilių eismo, akmeninės gatvelės ir arkos.',
-        ['Akmeninės gatvelės ir arkos', 'Du nemokami muziejai', 'Canederli ir obuolių štrudelis']),
+        ['Akmeninės gatvelės ir arkos', 'Canederli ir obuolių štrudelis']),
     'Lago di Tenno (pasirinktinai)': ('Smaragdinis kalnų ežeras apie 20–30 min nuo Rivos. Aplink ežerą pasivaikščiojimo takas, vasarą galima maudytis.',
         ['Smaragdinis vanduo', 'Takas aplink ežerą', 'Mokamas stovėjimas (~2 €/val.), 5 min pėsčiomis laiptais']),
     'Automobilių grąžinimas MXP': ('Automobilių grąžinimas Malpensoje. Grąžinkite abu automobilius iki 20:00.',
@@ -1007,6 +1007,11 @@ def finish_days():
         d['rise'], d['set'] = sun_times(dt, lat, lon, 1, 90.833)
         d['dusk'] = sun_times(dt, lat, lon, 1, 96.0)[1]
         d['dawn'] = sun_times(dt, lat, lon, 1, 96.0)[0]
+        for e in evs:
+            lg = e.get('leg')
+            e['km_e'] = lg['km'] if lg and lg['mode'] == 'car' else 0.0
+            wk_leg = (lg['min'] if lg['mode'] == 'walk' else (lg['walk'] if lg['mode'] == 'cable' else 0)) if lg else 0
+            e['wk_e'] = wk_leg + e.get('walk', 0)
         d['route_q'] = route_queries(evs)
 
 
@@ -1097,6 +1102,7 @@ def ev_html(d, i, e):
     loc = f'd{n}-{e["loc"]}' if e.get('loc') else ''
     return (f'<li class="ev k-{e["kind"]}" id="e{n}-{i + 1}" data-a="{e["a"]}" data-l="{e["l"]}" data-d="{n}" '
             f'data-loc="{loc}" data-leg="{leg["min"] if leg and not first else 0}" '
+            f'data-km="{e.get("km_e", 0)}" data-wk="{e.get("wk_e", 0)}" '
             f'data-mode="{leg["mode"] if leg and not first else ""}" data-title="{esc(e["title"])}">'
             f'<span class="mk" aria-hidden="true"></span>{leg_h}{core}</li>')
 
@@ -1331,6 +1337,17 @@ sun_rng = f'{fm(min(d["set"] for d in DAYS))}–{fm(max(d["set"] for d in DAYS))
 dusk_rng = f'{fm(min(d["dusk"] for d in DAYS))}–{fm(max(d["dusk"] for d in DAYS))}'
 
 CSS = r'''
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.sum-card{border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:14px}
+.sk{display:block;font-size:13px;opacity:.7}
+.sum-card b{display:block;font-size:24px;margin:2px 0}
+.sum-t{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 16px}
+.sum-t th,.sum-t td{padding:6px 8px;border-bottom:1px solid rgba(0,0,0,.1);text-align:left}
+.prog{border-top:1px solid rgba(0,0,0,.12);padding-top:12px}
+.pbar{height:12px;border-radius:99px;background:rgba(0,0,0,.1);overflow:hidden;margin:10px 0 6px}
+.pfill{height:100%;width:0;background:var(--terra);transition:width .6s}
+.pline{font-weight:600;margin:6px 0}
+.pdet{font-size:14px;opacity:.8;margin:0}
 .seeh{font:600 12px/1.2 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 4px;opacity:.85}
 .see{margin:0;padding-left:18px}
 .see li{margin:3px 0}
@@ -1792,7 +1809,21 @@ JS = r'''
 
   function mark(loc,cls){if(!loc)return;$$('.lp[data-loc="'+loc+'"]').forEach(function(el){el.classList.add(cls);});}
 
+  function nbJS(x){return String(Math.round(x)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+  function updProgress(n){
+    var P=$('#progress');if(!P)return;
+    var carT=+P.dataset.carkm,wkT=+P.dataset.wk,stT=+P.dataset.steps,wkmT=+P.dataset.walkkm,st=+P.dataset.start,en=+P.dataset.end;
+    var carD=0,wkD=0;
+    $$('li.ev[data-a]').forEach(function(el){var d=el.dataset;if(+d.a<=n){carD+=+d.km||0;wkD+=+d.wk||0;}});
+    var pct=carT?Math.min(1,carD/carT):0;
+    $('#p-fill').style.width=(pct*100).toFixed(1)+'%';
+    var stD=wkT?stT*wkD/wkT:0;
+    $('#p-det').textContent='Automobiliu nuvažiuota '+Math.round(carD)+' iš '+Math.round(carT)+' km (liko '+Math.round(Math.max(0,carT-carD))+' km) · pėsčiomis ~'+nbJS(stD)+' iš ~'+nbJS(stT)+' žingsnių';
+    var line=n<st?'Kelionė prasidės: liko '+dur(st-n)+'.':(n>=en?'Kelionė baigta.':'Kelionė vyksta: liko '+dur(en-n)+' iki pabaigos.');
+    $('#p-line').textContent=line;
+  }
   function update(){
+    updProgress(nowAbs());
     var n=nowAbs();
     // countdown (Italy date)
     if(cd){
@@ -2260,6 +2291,33 @@ JS = r'''
 })();
 '''
 
+def summary_html():
+    car = sum(e['km_e'] for d in DAYS for e in d['evs'])
+    carmin = sum(d['drive_min'] for d in DAYS)
+    wk_total = sum(e['wk_e'] for d in DAYS for e in d['evs'])
+    steps = sum(d['steps'] for d in DAYS)
+    walkkm = sum(d['walk_km'] for d in DAYS)
+    starts = [e['a'] for d in DAYS for e in d['evs']]
+    ends = [e['l'] for d in DAYS for e in d['evs']]
+    rows = ''.join(
+        f'<tr><th scope="row">{d["n"]} d.</th><td>{d["drive_km"]:.0f} km</td>'
+        f'<td>{d["walk_km"]:.1f} km</td><td>~{nb(d["steps"])}</td></tr>' for d in DAYS)
+    return (f'<section class="sec" id="suvestine"><div class="wrap">'
+            f'<h2>Kelionės suvestinė</h2>'
+            f'<div class="sum-grid">'
+            f'<div class="sum-card"><span class="sk">Automobiliu</span><b>{car:.0f} km</b>'
+            f'<small>~{dur_txt(carmin)} be sustojimų</small></div>'
+            f'<div class="sum-card"><span class="sk">Pėsčiomis</span><b>{walkkm:.1f} km</b>'
+            f'<small>~{nb(steps)} žingsnių</small></div></div>'
+            f'<table class="sum-t"><thead><tr><th>Diena</th><th>Automobiliu</th><th>Pėsčiomis</th><th>Žingsniai</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table>'
+            f'<div class="prog" id="progress" data-carkm="{car:.3f}" data-wk="{wk_total}" data-steps="{steps}" '
+            f'data-walkkm="{walkkm:.3f}" data-start="{min(starts)}" data-end="{max(ends)}">'
+            f'<h3>Progresas</h3><div class="pbar"><div class="pfill" id="p-fill"></div></div>'
+            f'<p class="pline" id="p-line">Kelionė dar neprasidėjo.</p><p class="pdet" id="p-det"></p></div>'
+            f'</div></section>')
+
+
 PAGE = r'''<!doctype html>
 <html lang="lt">
 <head>
@@ -2325,7 +2383,7 @@ PAGE = r'''<!doctype html>
       <li>8 keliautojai (5 suaugę, 3 vaikai)</li>
       <li>2 automobiliai</li>
     </ul>
-    <p class="stats"><span><b>5</b>dienos</span><span><b>2</b>nakvynės bazės</span><span><b>0</b>muziejų</span></p>
+    <p class="stats"><span><b>5</b>dienos</span><span><b>2</b>nakvynės bazės</span></p>
     <p class="tagline">Kalnai, tarpekliai ir senamiesčiai.</p>
   </div>
 </div></section>
@@ -2372,6 +2430,7 @@ PAGE = r'''<!doctype html>
     </article>
   </div>
 </div></section>
+%%SUMMARY%%
 </main>
 <div class="livebar" id="livebar" hidden><div class="lb-in">
   <button class="lb-main" type="button" aria-label="Rodyti dabartinį punktą"><span class="lb-a" id="lb-a"></span><span class="lb-b" id="lb-b"></span></button>
@@ -2399,6 +2458,7 @@ html_out = (PAGE
             .replace('%%CARLINK%%', mlink('Centauro Rent a Car Malpensa Airport', 'Centauro MXP'))
             .replace('%%SUNRNG%%', sun_rng)
             .replace('%%DUSKRNG%%', dusk_rng)
+            .replace('%%SUMMARY%%', summary_html())
             .replace('%%DAYS%%', ''.join(day_html(d) for d in DAYS))
             .replace('/*%%FXCSS%%*/', boats_css() + flow_css()))
 
