@@ -209,18 +209,25 @@ LOC = {
     'varone': ('Cascata Varone', (265, 58), (14, 2, 'start'), (14, 3, 'start', True)),
     'canale': ('Canale di Tenno', (247, 49), (-14, 4, 'end'), (-14, 3, 'end', True)),
     'lago': ('Lago di Tenno', (252, 37), (14, -2, 'start'), (14, -3, 'start', True)),
+    'borghetto': ('Borghetto sul Mincio', (198, 478), (-14, -12, 'end'), None),
+    'punta': ('Punta San Vigilio', (181, 327), (-14, -4, 'end'), (-14, -6, 'end', False)),
+    'ponale': ('Ponale takas', (262, 93), (-14, 14, 'end'), None),
 }
 
 # routes: (style, points) – schematic; styles drive / off / walk / cable
 ROUTES = {
     1: [('off', [(-30, 400), (18, 394), (55, 384), (89, 372)])],
-    2: [('drive', [(89, 372), (80, 388), (82, 404), (88, 419), (99, 430), (115, 435), (126, 432), (131, 422), (132, 410)]),
-        ('walk', [(132, 410), (132, 402), (131, 395)])],
+    2: [('drive', [(89, 372), (110, 392), (135, 420), (160, 448), (182, 470), (198, 478)]),
+        ('drive', [(198, 478), (180, 452), (160, 430), (140, 418), (132, 410)]),
+        ('walk', [(132, 410), (132, 402), (131, 395)]),
+        ('drive', [(131, 395), (150, 380), (165, 352), (176, 333), (181, 327)]),
+        ('drive', [(181, 327), (150, 345), (120, 360), (100, 366), (89, 372)])],
     3: [('drive', [(89, 372), (80, 350), (77, 330), (83, 310), (104, 294), (124, 280), (144, 257), (162, 236), (186, 208),
                    (206, 188), (219, 181), (212, 172), (204, 164), (212, 153), (226, 146), (237, 141), (239.5, 138),
                    (247, 119), (257, 99), (270, 82)]),
         ('walk', [(239.5, 138), (243, 133), (246, 129)])],
     4: [('drive', [(270, 82), (281, 86), (288, 97), (285, 113), (277, 129), (268, 147), (262, 168), (259, 190)]),
+        ('drive', [(259, 190), (268, 147), (277, 129), (285, 113), (288, 97), (275, 88), (262, 93)]),
         ('cable', [(259, 190), (270, 180), (281, 169)]),
         ('walk', [(259, 190), (255, 185), (251, 180)])],
     5: [('drive', [(270, 82), (269, 72), (266, 63), (265, 58), (257, 55), (247, 49), (246, 43), (252, 37)]),
@@ -231,7 +238,7 @@ EXTRA_TXT = {  # day -> [(x, y, anchor, text)] off-map hints
     5: [(332, 22, 'end', 'į Malpensą ↓')],
 }
 VIEWS = {  # day -> viewBox for mini-map
-    1: (10, 335, 150, 105), 2: (28, 345, 152, 100), 3: (28, 62, 294, 336),
+    1: (10, 335, 150, 105), 2: (28, 318, 190, 172), 3: (28, 62, 294, 336),
     4: (205, 62, 128, 150), 5: (188, 12, 157, 105),
 }
 
@@ -719,6 +726,7 @@ def L(mode, minutes, note='', km=0.0, walk=0):
 
 
 NOTE = lambda text: dict(kind='note', text=text)
+NEWB = '<span class="nb">NEW</span>'  # pažymi naujai pridėtus punktus
 
 PH = {  # wikipedia candidates (lang:Title|lang:Title ...) – loaded live in the browser
     'sirmione': 'en:Scaliger Castle (Sirmione)|it:Castello Scaligero (Sirmione)|en:Sirmione|it:Sirmione',
@@ -730,6 +738,9 @@ PH = {  # wikipedia candidates (lang:Title|lang:Title ...) – loaded live in th
     'varone': 'it:Cascate del Varone|en:Varone Falls|it:Cascata del Varone',
     'canale': 'it:Canale di Tenno|en:Canale di Tenno',
     'lago': 'it:Lago di Tenno|en:Lake Tenno|en:Lago di Tenno',
+    'borghetto': 'it:Borghetto (Valeggio sul Mincio)|en:Borghetto sul Mincio|it:Borghetto sul Mincio',
+    'punta': 'it:Punta San Vigilio|en:Punta San Vigilio',
+    'ponale': 'it:Sentiero del Ponale|en:Ponale Trail',
 }
 
 DAYS = [
@@ -743,34 +754,37 @@ DAYS = [
                q='Centauro Rent a Car Malpensa Airport', qn='Centauro MXP', at='20:30', dur=30, walk=10),
              E('dinner', 'Vėlyva vakarienė',
                'Sustokite A4 magistralėje (A) arba valgykite jau Monigoje (B); tada sustojimą praleiskite ir į Monigą atvyksite apie 23:15.',
-               leg=L('car', 70, 'A4 magistralė', 83.8), dur=20, dq='Autogrill Brembo A4', walk=5,
-               opts=[('A', 'greitkelyje', 'Autogrill Brembo/Sebino', '24/7 traškūs sumuštiniai, pica, kava.', 'Autogrill Brembo A4'),
+               leg=L('car', 70, 'A4 magistralė', 83.8), dur=20, dq='Autogrill Brembo Sud A4 Osio Sopra', walk=5,
+               opts=[('A', 'greitkelyje, A4 kryptimi į Triestą', 'Autogrill Brembo Sud', '24/7 sumuštiniai, pica, kava.', 'Autogrill Brembo Sud A4 Osio Sopra'),
                      ('B', 'Monigoje, pėsčiomis', 'Bar Centrale Moniga', 'Vietinis baras, panini, užkandžiai.', 'Bar Centrale Moniga del Garda')]),
              E('lodging', 'Registracija „Residence Corte Ferrari“',
                'Registracija iki 00:00. Jei vėluojate, iš anksto informuokite šeimininką. Rezidencijos sąlygos – skiltyje „Logistika“.',
                q='Residence Corte Ferrari Moniga del Garda', qn='Residence Corte Ferrari', loc='moniga',
                leg=L('car', 75, 'A4 magistralė', 91.9), dur=15, walk=5, kick='Apgyvendinimas'),
          ]),
-    dict(n=2, zone='south', iso='2026-10-30', date='Spalio 30 d., penktadienis', title='Sirmione ir pietinė pakrantė',
+    dict(n=2, zone='south', iso='2026-10-30', date='Spalio 30 d., penktadienis', title='Borghetto, Sirmione ir Punta San Vigilio',
          sun_at=(45.52, 10.54),
          must='Casoncelli bresciani (virtinukai su šalavijų sviestu) ir amatininkų ledai.',
          events=[
              E('coffee', 'Caffè San Martino', 'Monigoje. Švieži cornetti su pistacijomis ar kremu, kapučinas, sumuštiniai.',
                q='Caffè San Martino Moniga del Garda', qn='Caffè San Martino', at='08:45', dur=45, loc='moniga', walk=8,
                kick='Rytinė kavinė'),
-             E('sight', 'Sirmione senamiestis', 'Pro pilies vartus, siauromis gatvelėmis.',
-               q='Castello Scaligero Sirmione', qn='Sirmione pilis', loc='sirmione', ph=PH['sirmione'],
-               leg=L('car', 30, 'automobilius statykite prie senamiesčio', 18.3), dur=90, walk=45),
+             E('sight', 'Borghetto sul Mincio', 'Viduramžių kaimas ant Mincio upės: malūnai, akmeniniai namai, Visconteo tiltas ir upės kavinės. Tortellini di Valeggio – čia pat.',
+               q='Borghetto sul Mincio', qn='Borghetto sul Mincio', loc='borghetto', ph=PH['borghetto'], new=True,
+               leg=L('car', 45, 'per Peschierą', 40), dur=90, walk=30),
+             E('meal', 'Pietūs Sirmione', 'Casoncelli bresciani ar amatininkų ledai (žr. „Būtina paragauti“).', dq='Castello Scaligero Sirmione',
+               leg=L('car', 35, 'į Sirmione', 22), at='12:45', dur=60, walk=5),
+             E('sight', 'Sirmione senamiestis ir pilis', 'Pro Castello Scaligero vartus, siauromis gatvelėmis; pilies bokšto apžvalgos aikštelė.',
+               q='Castello Scaligero Sirmione', qn='Sirmione pilis', loc='sirmione', ph=PH['sirmione'], dur=90, walk=15),
              E('sight', 'Passeggiata Panoramica', 'Palei ežero skardžius ir alyvmedžius.',
-               q='Passeggiata Panoramica Sirmione', qn='Passeggiata Panoramica', loc='tip',
-               leg=L('walk', 15), dur=75, walk=40),
-             E('meal', 'Pietūs ir ledai', 'Casoncelli bresciani ar amatininkų ledai (žr. „Būtina paragauti“).', dur=75, walk=5),
-             E('rest', 'Poilsis Monigoje', 'Laisvas laikas rezidencijoje.', dq='Residence Corte Ferrari Moniga del Garda',
-               loc='moniga', leg=L('car', 30, '', 18.3), dur=0, walk=10),
-             E('dinner', 'Vakarienė Monigoje: 2 pasirinkimai pėsčiomis', None, at='19:00', loc='moniga',
-               leg=L('walk', 5), dur=90, walk=8,
-               opts=[('A', 'pėsčiomis', 'Pizzeria Ristorante Oasi', 'Didelė šeimyninė picerija.', 'Pizzeria Ristorante Oasi Moniga del Garda'),
-                     ('B', 'pėsčiomis', 'Ristorante La Pescatrice', 'Tradicinė ežero žuvies osterija.', 'Ristorante La Pescatrice Moniga del Garda')]),
+               q='Passeggiata Panoramica Sirmione', qn='Passeggiata Panoramica', loc='tip', dur=30, walk=30),
+             E('sight', 'Punta San Vigilio', 'Renesanso vila ant kyšulio ir akmenuota įlanka. Saulėlydis apie 17:08. Dalis prieigos eina per viešbučio teritoriją.',
+               q='Punta San Vigilio', qn='Punta San Vigilio', loc='punta', ph=PH['punta'], at='16:20', new=True,
+               leg=L('car', 35, 'per Lazise ir Gardą', 25), dur=70, walk=10),
+             E('dinner', 'Vakarienė Garda mieste', 'Garda centre pasirinkite €€ trattoriją arba picerija; po vakarienės trumpas pasivaikščiojimas krantine. Rezervuokite stalą 8 žmonėms.',
+               q='Garda VR Italy', qn='Garda', at='18:30', new=True, leg=L('walk', 5), dur=90, walk=5),
+             E('rest', 'Grįžimas į Moniga', 'Nakvynė „Residence Corte Ferrari“.', dq='Residence Corte Ferrari Moniga del Garda',
+               loc='moniga', at='20:40', leg=L('car', 40, '', 30), dur=0, walk=5, kick='Apgyvendinimas'),
          ]),
     dict(n=3, zone='mid', iso='2026-10-31', date='Spalio 31 d., šeštadienis', title='Tarpeklis, Limone ir persikėlimas į šiaurę',
          sun_at=(45.77, 10.77),
@@ -817,9 +831,10 @@ DAYS = [
              E('sight', 'Malcesine senamiestis ir uostas',
                'Nusileidus: viduramžių senamiestis ir žvejų uostas; čia pat pietūs (Carne Salada).',
                q='Malcesine porto', qn='Malcesine uostas', loc='malc', ph=PH['malc'],
-               leg=L('cable', 30, 'nusileidimas keltuvu ir pėsčiomis', 0, walk=15), dur=150, walk=60),
-             E('rest', 'Poilsis Riva del Gardoje', 'Laisvas laikas prieš vakarienę.', dq='Residence Segattini Riva del Garda',
-               loc='riva', leg=L('car', 35, 'Gardesana Orientale', 18.8), dur=0, walk=8),
+               leg=L('cable', 30, 'nusileidimas keltuvu ir pėsčiomis', 0, walk=15), dur=105, walk=60),
+             E('sight', 'Ponale takas, pirma atkarpa', 'Senas kelias ir takas palei uolas virš ežero. Šeimai tinka pirma atkarpa nuo Rivos: pirmyn ir atgal apie 2 val.',
+               q='Sentiero del Ponale Riva del Garda', qn='Ponale takas', loc='ponale', ph=PH['ponale'], new=True,
+               at='15:45', leg=L('car', 35, 'Gardesana Orientale', 18.8), dur=75, walk=10),
              E('dinner', 'Vakarienė Riva del Garda senamiestyje: 2 pasirinkimai', None, at='19:00', loc='riva',
                leg=L('walk', 5), dur=90, walk=8,
                opts=[('A', 'senamiestyje', 'Osteria La Contrada', 'Autentiški senamiesčio skliautai.', 'Osteria La Contrada Riva del Garda'),
@@ -829,23 +844,20 @@ DAYS = [
          sun_at=(45.886, 10.842),
          must='Canederli (kalnų duonos kukuliai) ir obuolių štrudelis.',
          events=[
-             E('lodging', 'Išsiregistravimas iš „Residence Segattini“', None, at='09:00', dur=20, loc='riva',
+             E('lodging', 'Išsiregistravimas iš „Residence Segattini“', None, at='09:00', dur=15, loc='riva',
                dq='Residence Segattini Riva del Garda', walk=5, kick='Apgyvendinimas'),
-             E('coffee', 'Bar Pasticceria Maffei', 'Riva del Gardoje. Kava ir pyragaičiai aikštėje.',
-               q='Bar Pasticceria Maffei Riva del Garda', qn='Bar Pasticceria Maffei', loc='riva', dur=35, walk=8,
-               leg=L('walk', 5), kick='Rytinė kavinė'),
              E('sight', 'Parco Grotta Cascata Varone', 'Krioklys uoloje. Lapkritį parkas dirba 10:00–17:00 (patikrinkite prieš vykdami).',
-               q='Cascata Varone Riva del Garda', qn='Cascata Varone', loc='varone', ph=PH['varone'],
+               q='Cascata Varone Riva del Garda', qn='Cascata Varone', loc='varone', ph=PH['varone'], at='10:00',
                leg=L('car', 10, '', 3.4), dur=90, walk=45),
              E('sight', 'Canale di Tenno', 'Akmeninis viduramžių kaimelis be automobilių eismo; čia pat pietūs (Canederli, obuolių štrudelis).',
-               q='Canale di Tenno', qn='Canale di Tenno', loc='canale', ph=PH['canale'],
-               leg=L('car', 25, 'siauri kalnų keliai', 15.1), dur=100, walk=40),
-             E('sight', 'Lago di Tenno', 'Smaragdinis ežeras.', q='Lago di Tenno', qn='Lago di Tenno', loc='lago', ph=PH['lago'],
-               leg=L('car', 15, '', 5), dur=90, walk=35),
-             NOTE('Iš Tenno išvykite ne vėliau kaip 15:30, kad spėtumėte grąžinti automobilius iki 20:00.'),
+               q='Canale di Tenno', qn='Canale di Tenno', loc='canale', ph=PH['canale'], at='12:00',
+               leg=L('car', 25, 'siauri kalnų keliai', 15.1), dur=105, walk=40),
+             E('sight', 'Lago di Tenno (pasirinktinai)', 'Smaragdinis ežeras.', q='Lago di Tenno', qn='Lago di Tenno', loc='lago', ph=PH['lago'],
+               leg=L('car', 15, '', 5), dur=45, walk=20),
+             NOTE('Iš Lago di Tenno išvykite apie 14:45, kad automobiliai būtų grąžinti iki 20:00.'),
              E('car', 'Automobilių grąžinimas MXP', 'Grąžinti reikia iki 20:00.', q='Centauro Rent a Car Malpensa Airport',
-               qn='Centauro MXP', leg=L('car', 210, 'A22 ir A4 į Malpensą', 222.9), dur=60, walk=8),
-             E('meal', 'Registracija, saugumo patikra, vakarienė oro uoste', None, dur=115, walk=17),
+               qn='Centauro MXP', leg=L('car', 210, 'A22 ir A4 į Malpensą', 222.9), dur=30, walk=8),
+             E('meal', 'Registracija, saugumo patikra, vakarienė oro uoste', None, at='20:00', dur=115, walk=17),
              E('flight', 'Skrydis MXP ➔ VNO (Wizz Air)', 'Nusileidimas 01:30 Vilniaus laiku (lapkričio 3 d.).',
                at='21:55', dur=155, chip='21:55 → 01:30', kick='Skrydis (vietiniai laikai)'),
          ]),
@@ -993,7 +1005,7 @@ def ev_html(d, i, e):
     if e.get('ph'):
         ph = (f'<span class="ph" data-wp="{esc(e["ph"])}"><img alt="" width="60" height="60" decoding="async"></span>')
         body += '<a class="cred" hidden target="_blank" rel="noopener">Nuotrauka: Wikipedia</a>'
-    inner_sum = f'<span class="evs"><span class="evl">{chips}<span class="evt">{esc(e["title"])}</span></span>{ph}{CHV if body else ""}</span>'
+    inner_sum = f'<span class="evs"><span class="evl">{chips}<span class="evt">{esc(e["title"])}</span>{NEWB if e.get("new") else ""}</span>{ph}{CHV if body else ""}</span>'
     if body:
         core = f'<details class="evd" open><summary>{inner_sum}</summary><div class="evb">{body}</div></details>'
     else:
@@ -1235,6 +1247,7 @@ sun_rng = f'{fm(min(d["set"] for d in DAYS))}–{fm(max(d["set"] for d in DAYS))
 dusk_rng = f'{fm(min(d["dusk"] for d in DAYS))}–{fm(max(d["dusk"] for d in DAYS))}'
 
 CSS = r'''
+.nb{display:inline-block;margin-left:8px;background:#c4531f;color:#fff;font:600 11px/1 system-ui,sans-serif;letter-spacing:.06em;padding:3px 6px;border-radius:4px;vertical-align:2px}
 @font-face{font-family:"Inter";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/inter.woff) format("woff")}
 @font-face{font-family:"Literata";font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/literata.woff) format("woff")}
 @font-face{font-family:"Literata";font-style:italic;font-weight:500;font-display:swap;src:url(fonts/literata-italic.woff) format("woff")}
